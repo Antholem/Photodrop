@@ -43,7 +43,7 @@ const SignIn = () => {
           {user ? (
             <Avatar name={user.displayName} src={user.photoURL} />
           ) : (
-            <Avatar name='' src='' />
+            <Avatar src='https://bit.ly/broken-link' />
           )}
         </Box>
         {user &&
