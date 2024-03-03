@@ -5,6 +5,7 @@ import SignIn from "../pages/signin/page";
 import Home from "../pages/home/page";
 import CustomizedSpinner from "../components/spinner/component";
 import NavigationBar from "../components/navigation-bar/component";
+import Fallback from "../pages/fallback/page";
 
 function StructuredRoute() {
   const [user, setUser] = useState(null);
@@ -28,8 +29,10 @@ function StructuredRoute() {
       <Routes>
         <Route element={<NavigationBar />}>
           <Route path="/" element={user ? <Home /> : <Navigate to="/signin" />} />
+          {user && <Route path="*" element={<Fallback />} />}
         </Route>
         <Route path="/signin" element={user ? <Navigate to="/" /> : <SignIn />} />
+        {!user && <Route path="*" element={<Fallback />} />}
       </Routes>
     </BrowserRouter>
   );
