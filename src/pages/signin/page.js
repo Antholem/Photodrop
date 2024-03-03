@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "../../config/firebase";
 import { Box, Button, Text } from "@chakra-ui/react";
@@ -19,18 +19,20 @@ const SignIn = () => {
   };
 
   return (
-    <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" h="100vh" gap={2}>
-      <Box>
-        <Text fontSize="2xl">
-          Log in
-        </Text>
+    <Fragment>
+      <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" h="100vh" gap={2}>
+        <Box>
+          <Text fontSize="2xl">
+            Log in
+          </Text>
+        </Box>
+        <Box>
+          <Button isLoading={isBtnLoading} onClick={signInGoogle} colorScheme="blue" variant="solid">
+            Sign In
+          </Button>
+        </Box>
       </Box>
-      <Box>
-        <Button isLoading={isBtnLoading} onClick={signInGoogle} colorScheme="blue" variant="solid">
-          Sign In
-        </Button>
-      </Box>
-    </Box>
+    </Fragment>
   )
 }
 
