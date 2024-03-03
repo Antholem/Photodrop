@@ -1,27 +1,32 @@
-import React from 'react';
-import { signInWithPopup } from 'firebase/auth';
-import { auth, googleProvider } from '../../config/firebase';
-import { Box, Button, Text } from '@chakra-ui/react';
+import React, { useState } from "react";
+import { signInWithPopup } from "firebase/auth";
+import { auth, googleProvider } from "../../config/firebase";
+import { Box, Button, Text } from "@chakra-ui/react";
 
 const SignIn = () => {
+  const [isBtnLoading, setIsBtnloading] = useState(false);    
+
   const signInGoogle = async () => {
+    setIsBtnloading(true);
     try {
       await signInWithPopup(auth, googleProvider);
-      window.alert('Sign In Success');
+      window.alert("Sign In Success");
+      setIsBtnloading(false);
     } catch (error) {
       window.alert(error);
+      setIsBtnloading(false);
     }
   };
 
   return (
-    <Box display="flex" flexDirection='column' justifyContent='center' alignItems='center' h='100vh' gap={2}>
+    <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" h="100vh" gap={2}>
       <Box>
-        <Text fontSize='2xl'>
+        <Text fontSize="2xl">
           Log in
         </Text>
       </Box>
       <Box>
-        <Button onClick={signInGoogle} colorScheme='blue' variant='solid'>
+        <Button isLoading={isBtnLoading} onClick={signInGoogle} colorScheme="blue" variant="solid">
           Sign In
         </Button>
       </Box>

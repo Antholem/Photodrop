@@ -1,7 +1,7 @@
-import { Box, Button, Text } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react';
-import { auth } from '../../config/firebase';
-import { signOut } from 'firebase/auth';
+import React, { useEffect, useState } from "react";
+import { signOut } from "firebase/auth";
+import { auth } from "../../config/firebase";
+import { Box, Button, Text } from "@chakra-ui/react";
 
 const Home = () => {
   const [user, setUser] = useState(null);
@@ -17,22 +17,22 @@ const Home = () => {
   const signOutHandler = async () => {
     try {
       await signOut(auth);
-      window.alert('Sign Out Success');
+      window.alert("Sign Out Success");
     } catch (error) {
       window.alert(error);
     }
   };
 
   return (
-    <Box display="flex" flexDirection='column' justifyContent='center' alignItems='center' h='100vh' gap={2}>
+    <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" h="100vh" gap={2}>
       <Box>
-        <Text fontSize='2xl'>
+        <Text fontSize="2xl">
           Home
         </Text>
         {user ? "Logged In" : "You need to log"}
       </Box>
       <Box>
-        <Button onClick={signOutHandler} colorScheme='red' variant='outline'>
+        <Button onClick={signOutHandler} colorScheme="red" variant="outline">
           Sign Out
         </Button>
       </Box>
