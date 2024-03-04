@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { auth } from "../../config/firebase";
-import { Box, Button, Input } from "@chakra-ui/react";
-import { getFirestore, collection, onSnapshot, addDoc } from "firebase/firestore";
+import { Box} from "@chakra-ui/react";
+import { getFirestore, collection, onSnapshot } from "firebase/firestore";
 
 const Collections = () => {
     const [user, setUser] = useState(null);
     const [albums, setAlbums] = useState([]);
-    const [albumsTitle, setAlbumsTitle] = useState('');
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -28,19 +27,6 @@ const Collections = () => {
         return () => unsubscribe();
     }, []);
 
-    const addAlbum = async () => {
-        const db = getFirestore();
-        const albumCollections = collection(db, "albums");
-
-        try {
-            await addDoc(albumCollections, { title: albumsTitle });
-            setAlbumsTitle('');
-            console.log("Album added successfully!");
-        } catch (error) {
-            console.error("Error adding album: ", error);
-        }
-    };
-
     return (
         <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" h="100vh" gap={2}>
             <Box>
@@ -51,18 +37,6 @@ const Collections = () => {
                     {album.title}
                 </Box>
             ))}
-            <Box>
-                <Input
-                    placeholder='Input Title'
-                    value={albumsTitle}
-                    onChange={(e) => setAlbumsTitle(e.target.value)}
-                />
-            </Box>
-            <Box>
-                <Button onClick={addAlbum} colorScheme='blue'>
-                    Add
-                </Button>
-            </Box>
         </Box>
     )
 }
