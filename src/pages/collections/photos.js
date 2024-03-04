@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getFirestore, doc, getDoc, collection, addDoc, getDocs, onSnapshot } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, collection, addDoc, onSnapshot } from 'firebase/firestore';
 import { Box, Button, Input } from '@chakra-ui/react';
 
 const Photos = () => {
