@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import { auth } from "../../config/firebase";
 import { Box, Button, Input } from "@chakra-ui/react";
 import { getFirestore, collection, onSnapshot, addDoc } from "firebase/firestore";
-import { Link } from "react-router-dom";
 
-const Albums = () => {
+const Collections = () => {
     const [user, setUser] = useState(null);
     const [albums, setAlbums] = useState([]);
     const [albumsTitle, setAlbumsTitle] = useState('');
@@ -49,13 +48,9 @@ const Albums = () => {
             </Box>
             {albums.map((album) => (
                 <Box key={album.id}>
-                    {/* <Link to={`/albums/${album.id}`}>
-                        {album.title}
-                    </Link> */}
                     {album.title}
                 </Box>
             ))}
-
             <Box>
                 <Input
                     placeholder='Input Title'
@@ -72,4 +67,4 @@ const Albums = () => {
     )
 }
 
-export default Albums;
+export default Collections;
