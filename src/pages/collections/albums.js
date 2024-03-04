@@ -1,38 +1,33 @@
 import React, { useEffect, useState } from "react";
-import { db } from "../../config/firebase";
-import { Box } from "@chakra-ui/react";
-import { getFirestore, collection, onSnapshot, getDocs } from "firebase/firestore";
+import { Box, Text } from "@chakra-ui/react";
+import { getFirestore, collection, onSnapshot } from "firebase/firestore";
 
 const Collections = () => {
     const [albums, setAlbums] = useState([]);
 
     useEffect(() => {
-        (async () => {
-            const colRef = collection(db, "albums");
-            const snapshots = await getDocs(colRef);
-            const docs = snapshots.docs.map((doc) => {
-                const data = doc.data();
-                data.id = doc.id;
-                return data;
-            });
+        const db = getFirestore();
+        const unsubscribe = onSnapshot(collection(db, "albums"), (snapshot) => {
+            const albumList = snapshot.docs.map((doc) => ({
+                id: doc.id,
+                title: doc.data().title,
+            }));
+            setAlbums(albumList);
+        });
 
-            setAlbums(docs);
-        })()
-    }, [])
+        return () => unsubscribe();
+    }, []);
 
     return (
         <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" h="100vh" gap={2}>
             <Box>
-                Album List:
+                <Text fontSize="2xl">Album List:</Text>
+                {albums.map((album) => (
+                    <Text key={album.id}>{album.title}</Text>
+                ))}
             </Box>
-            {albums.map(album => (
-                <Box key={album.id}>
-                    {album.title}
-                </Box>
-            ))}
         </Box>
-    )
-
-}
+    );
+};
 
 export default Collections;
