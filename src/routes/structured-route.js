@@ -32,7 +32,7 @@ function StructuredRoute() {
         <Route element={<NavigationBar />}>
           <Route index element={user ? <Home /> : <Navigate to="/signin" />} />
           <Route path="collections" element={<Collections />} />
-          {user && <Route path="albums/:id" element={<Photos />} />}
+          
           {user && <Route path="*" element={<Fallback />} />}
         </Route>
         <Route path="signin" element={<SignIn />} />
