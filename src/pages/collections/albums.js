@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { auth } from "../../config/firebase";
 import { Box, Button, Input } from "@chakra-ui/react";
 import { getFirestore, collection, onSnapshot, addDoc } from "firebase/firestore";
-import { Link, Route } from "react-router-dom";
-import Photos from "./photos";
+import { Link } from "react-router-dom";
 
 const Albums = () => {
     const [user, setUser] = useState(null);
