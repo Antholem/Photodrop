@@ -7,7 +7,6 @@ import CustomizedSpinner from "../components/spinner/component";
 import NavigationBar from "../components/navigation-bar/component";
 import Fallback from "../pages/fallback/page";
 import Collections from "../pages/collections/albums";
-import Photos from "../pages/collections/photos";
 
 function StructuredRoute() {
   const [user, setUser] = useState(null);
