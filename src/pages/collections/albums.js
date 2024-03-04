@@ -49,9 +49,10 @@ const Albums = () => {
             </Box>
             {albums.map((album) => (
                 <Box key={album.id}>
-                    <Link to={`/albums/${album.id}`}>
+                    {/* <Link to={`/albums/${album.id}`}>
                         {album.title}
-                    </Link>
+                    </Link> */}
+                    {album.title}
                 </Box>
             ))}
 
