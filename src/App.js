@@ -1,55 +1,41 @@
-import { Fragment, useState, useEffect } from "react";
-import { auth, googleProvider } from './config/firebase';
-import { signInWithPopup, signOut, onAuthStateChanged } from 'firebase/auth';
-import { Box, Button, Text } from "@chakra-ui/react";
+import { useState, useEffect } from "react";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './config/firebase';
+import Home from "./pages/home/page";
+import SignIn from "./pages/sign-in/page";
+import CustomizedSpinner from "./components/spinner/component";
+import Navigation from "./components/navigation/component";
+import Fallback from "./pages/fallback/page";
 
 function App() {
   const [user, setUser] = useState();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
+      setLoading(false);
     });
 
     return () => unsubscribe();
   }, []);
 
-  const signInGoogle = async () => {
-    try {
-      await signInWithPopup(auth, googleProvider);
-      window.alert('Sign In Success');
-    } catch (error) {
-      window.alert(error);
-    }
-  };
-
-  const signOutHandler = async () => {
-    try {
-      await signOut(auth);
-      window.alert('Sign Out Success');
-    } catch (error) {
-      window.alert(error);
-    }
-  };
+  if (loading) {
+    return <CustomizedSpinner />;
+  }
 
   return (
-    <Fragment>
-      <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" h="100vh" gap={2}>
-        <Box>
-          <Text>
-            {user ? "Logged In" : "Not Logged In"}
-          </Text>
-        </Box>
-        <Box display='flex' flexDirection='column' gap={2}>
-          <Button onClick={signInGoogle} colorScheme='blue' variant='solid'>
-            Sign In With Google
-          </Button>
-          <Button onClick={signOutHandler} colorScheme='red' variant='outline'>
-            Sign Out
-          </Button>
-        </Box>
-      </Box>
-    </Fragment>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Navigation />}>
+          <Route path="/" element={user ? <Home /> : <Navigate to="/signin" replace />} />
+          {user && <Route path="*" element={<Fallback />} />}
+        </Route>
+        <Route path="/signin" element={!user ? <SignIn /> : <Navigate to="/" replace />} />
+        {!user && <Route path="*" element={<Fallback />} />}
+      </Routes>
+    </BrowserRouter>
   );
 }
 
