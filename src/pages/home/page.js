@@ -1,9 +1,10 @@
 import { Fragment, useEffect, useState } from "react";
-import { Box, Text } from "@chakra-ui/react";
-import { getFirestore, collection, onSnapshot } from "firebase/firestore";
+import { Box, Button, Input, Text } from "@chakra-ui/react";
+import { getFirestore, collection, onSnapshot, addDoc } from "firebase/firestore";
 
 function Home() {
     const [albums, setAlbums] = useState([]);
+    const [addAlbum, setAddAlbum] = useState('');
 
     useEffect(() => {
         const db = getFirestore();
@@ -16,6 +17,19 @@ function Home() {
 
         return () => unsubscribe();
     }, []);
+
+    const addAlbumHandler = async () => {
+        const db = getFirestore();
+        const albumCollections = collection(db, "albums");
+
+        try {
+            await addDoc(albumCollections, { title: addAlbum });
+            setAddAlbum('');
+            window.alert("Album added successfully!");
+        } catch (error) {
+            window.alert("Error adding album: ", error);
+        }
+    };
 
     return (
         <Fragment>
@@ -30,6 +44,18 @@ function Home() {
                         <Text>{album.title}</Text>
                     </Box>
                 ))}
+                <Box>
+                    <Input
+                        placeholder='Input Title'
+                        value={addAlbum}
+                        onChange={(e) => setAddAlbum(e.target.value)}
+                    />
+                </Box>
+                <Box>
+                    <Button onClick={addAlbumHandler} colorScheme='blue'>
+                        Add
+                    </Button>
+                </Box>
             </Box>
         </Fragment>
     );
