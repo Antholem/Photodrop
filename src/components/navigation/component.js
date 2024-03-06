@@ -3,9 +3,10 @@ import { Outlet } from "react-router-dom";
 import { Box } from "@chakra-ui/react";
 
 const Navigation = () => {
+
     return (
         <Fragment>
-            <Box bg="tomato" w="100%" p={4} color="white">
+            <Box bg="white" w="100%" p={4} boxShadow='md' position='sticky' top={0}>
                 Navigation
             </Box>
             <Outlet />
