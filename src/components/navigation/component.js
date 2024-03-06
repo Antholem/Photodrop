@@ -28,7 +28,7 @@ const Navigation = () => {
         <Fragment>
             <Box bg="white" w="100%" p={4} boxShadow='md' position='sticky' top={0}>
                 <Button onClick={signOutHandler} colorScheme='blue' variant='solid'>
-                    Sign Out
+                    {user ? "Sign Out" : "Sign In"}
                 </Button>
             </Box>
             <Outlet />
