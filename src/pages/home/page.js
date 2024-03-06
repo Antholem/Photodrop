@@ -19,11 +19,11 @@ function Home() {
             <Box display="flex" flexDirection="column" justifyContent='flex-start' alignItems='center' gap={2}>
                 <Box>
                     <Text fontSize='2xl'>
-                        Album List:
+                        Album List: {user && <></>}
                     </Text>
                 </Box>
                 <Box>
-
+                    {/* put album.title in here */}
                 </Box>
                 <Box>
                     <Button colorScheme='blue' variant='solid'>

@@ -30,6 +30,9 @@ const Navigation = () => {
                 <Button onClick={signOutHandler} colorScheme='blue' variant='solid'>
                     Sign Out
                 </Button>
+                <Box>
+                    {user && <>Logged</>}
+                </Box>
             </Box>
             <Outlet />
         </Fragment>
