@@ -1,19 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { getFirestore, doc, getDoc, collection, addDoc, onSnapshot } from 'firebase/firestore';
-import { Box, Button, Input } from '@chakra-ui/react';
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { getFirestore, doc, getDoc, collection, addDoc, onSnapshot } from "firebase/firestore";
+import { Box, Button, Input, Text } from "@chakra-ui/react";
 
 const Photos = () => {
     const { id } = useParams();
     const [album, setAlbum] = useState(null);
-    const [photoTitle, setPhotoTitle] = useState('');
     const [photos, setPhotos] = useState([]);
+    const [addPhoto, setAddPhoto] = useState("");
 
     useEffect(() => {
         const fetchAlbum = async () => {
             const db = getFirestore();
-            const albumRef = doc(db, 'albums', id);
+            const albumRef = doc(db, "albums", id);
             const albumSnapshot = await getDoc(albumRef);
+
             if (albumSnapshot.exists()) {
                 setAlbum({ ...albumSnapshot.data(), id: albumSnapshot.id });
 
@@ -24,21 +25,21 @@ const Photos = () => {
 
                 return () => unsubscribe();
             } else {
-                console.log('Album not found');
+                console.log("Album not found");
             }
         };
 
         fetchAlbum();
     }, [id]);
 
-    const addPhoto = async () => {
+    const addPhotoHandler = async () => {
         const db = getFirestore();
-        const albumRef = doc(db, 'albums', id);
+        const albumRef = doc(db, "albums", id);
         const photosRef = collection(albumRef, album.title);
 
         try {
-            await addDoc(photosRef, { title: photoTitle });
-            setPhotoTitle('');
+            await addDoc(photosRef, { title: addPhoto });
+            setAddPhoto("");
             console.log("Photo added successfully!");
         } catch (error) {
             console.error("Error adding photo: ", error);
@@ -46,31 +47,35 @@ const Photos = () => {
     };
 
     return (
-        <div>
-            {album && <div>{album.title}</div>}
-            <Button colorScheme='red' variant='outline'>
-                <Link to='/'>
-                    Back
-                </Link>
-            </Button>
+        <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" h="100vh" gap={2}>
             <Box>
-                <Input
-                    placeholder={`Input ${album?.title} Title`}
-                    value={photoTitle}
-                    onChange={(e) => setPhotoTitle(e.target.value)}
-                />
-            </Box>
-            <Box>
-                <Button onClick={addPhoto} colorScheme='blue'>
-                    Add {album?.title}
-                </Button>
+                <Text fontSize="2xl">
+                    {album && album.title}
+                </Text>
             </Box>
             <Box>
                 {photos.map(photo => (
-                    <div key={photo.id}>{photo.title}</div>
+                    <Box key={photo.id}>{photo.title}</Box>
                 ))}
             </Box>
-        </div>
+            <Box>
+                <Input
+                    placeholder={`Input ${album?.title} Title`}
+                    value={addPhoto}
+                    onChange={(e) => setAddPhoto(e.target.value)}
+                />
+            </Box>
+            <Box>
+                <Button colorScheme="blue" variant="outline">
+                    <Link to="/">
+                        Back
+                    </Link>
+                </Button>
+                <Button onClick={addPhotoHandler} colorScheme="blue">
+                    Add {album?.title}
+                </Button>
+            </Box>
+        </Box>
     );
 };
 
