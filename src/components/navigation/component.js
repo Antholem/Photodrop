@@ -1,8 +1,8 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
-import { auth } from '../../config/firebase';
-import { onAuthStateChanged , signOut} from 'firebase/auth';
 import { Box, Button } from "@chakra-ui/react";
+import { onAuthStateChanged , signOut} from "firebase/auth";
+import { auth } from "../../config/firebase";
 
 const Navigation = () => {
     const [user, setUser] = useState();
@@ -18,7 +18,7 @@ const Navigation = () => {
     const signOutHandler = async () => {
         try {
             await signOut(auth);
-            window.alert('Sign Out Success');
+            window.alert("Sign Out Success");
         } catch (error) {
             window.alert(error);
         }
@@ -26,8 +26,8 @@ const Navigation = () => {
 
     return (
         <Fragment>
-            <Box bg="white" w="100%" p={4} boxShadow='md' position='sticky' top={0}>
-                <Button onClick={signOutHandler} colorScheme='blue' variant='solid'>
+            <Box bg="white" w="100%" p={4} boxShadow="md" position="sticky" top={0}>
+                <Button onClick={signOutHandler} colorScheme="blue" variant="solid">
                     {user ? "Sign Out" : "Sign In"}
                 </Button>
             </Box>
